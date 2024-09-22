@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GDG [City Name]</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="favicon.ico">
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 1em;
+    text-align: center;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+nav li {
+    margin-right: 20px;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2em;
+}
+
+#hero {
+    background-image: url('hero.jpg');
+    background-size: cover;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+}
+
+#events {
+    background-color: #f7f7f7;
+    padding: 1em;
+    border: 1px solid #ddd;
+}
+
+#event-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#about {
+    background-color: #f7f7f7;
+    padding: 1em;
+    border: 1px solid #ddd;
+}
+
+#contact {
+    background-color: #f7f7f7;
+    padding: 1em;
+    border: 1px solid #ddd;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 1em;
+    text-align: center;
+}
+.image {
+    height:100vh;
+    width:100vw;
+    background-size:cover;
+}
+
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Events</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section id="hero">
+            <h1>Welcome to GDG</h1>
+            <p>A community of developers, by developers, for developers.</p>
+            <div class="image">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaoZHXJ6hA2iMfGZORR9f2IrFGHH7Uv4f1sw&s"/>
+            </div>
+            <button>Join Us</button>
+        </section>
+        <section id="events">
+            <h1>Upcoming Events</h1>
+            <ul id="event-list">
+                <!-- Event list will be populated here -->
+            </ul>
+        </section>
+        <section id="about">
+            <h1>About GDG</h1>
+            <p>We are a community of passionate developers...</p>
+        </section>
+        <section id="contact">
+            <h1>Get in Touch</h1>
+            <p>contact@gdg.com</p>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 GDG</p>
+    </footer>
+    <script src="script.js">
+        // Initialize Firebase
+const firebaseConfig = {
+    apiKey: '<API_KEY>',
+    authDomain: '<AUTH_DOMAIN>',
+    databaseURL: '<DATABASE_URL>',
+    projectId: '<PROJECT_ID>',
+    storageBucket: '<STORAGE_BUCKET>',
+    messagingSenderId: '<MESSAGING_SENDER_ID>',
+    appId: '<APP_ID>'
+};
+
+firebase.initializeApp(firebaseConfig);
+
+// Get events from Firebase Realtime Database
+const eventsRef = firebase.database().ref('events');
+
+eventsRef.on('value', (data) => {
+    const events = data.val();
+    const eventList = document.getElementById('event-list');
+
+    // Clear existing event list
+    eventList.innerHTML = '';
+
+    // Populate event list
+    Object.keys(events).forEach((eventId) => {
+        const event = events[eventId];
+        const eventListItem = document.createElement('LI');
+        eventListItem.innerHTML = `
+            <h2>${event.title}</h2>
+            <p>${event.date} | ${event.time}</p>
+            <p>${event.location}</p>
+        `;
+        eventList.appendChild(eventListItem);
+    });
+});
+
+    </script>
+</body>
+</html>
+
